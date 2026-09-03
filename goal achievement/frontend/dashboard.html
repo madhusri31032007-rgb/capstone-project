@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GoalMate Dashboard</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+    <main class="dashboard-container">
+
+        <header class="dashboard-header">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Track your goals and tasks</p>
+            </div>
+
+            <a href="tasks.html" class="manage-tasks-btn">
+                Manage Tasks
+            </a>
+
+        </header>
+
+
+        <!-- =========================
+             TODAY'S TASKS
+        ========================== -->
+
+        <section class="today-tasks-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Today's Tasks</h2>
+
+                    <p>
+                        Complete your tasks for today
+                    </p>
+                </div>
+
+                <a
+                    href="tasks.html"
+                    class="add-task-link"
+                >
+                    + Manage Tasks
+                </a>
+
+            </div>
+
+
+            <div id="todayTasks">
+
+                <p class="empty-task-message">
+                    Loading tasks...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             MY GOALS
+        ========================== -->
+
+        <section class="goals-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>My Goals</h2>
+
+                    <p>
+                        Track your goal progress
+                    </p>
+                </div>
+
+                <a
+                    href="create-goal.html"
+                    class="add-task-link"
+                >
+                    + Create Goal
+                </a>
+
+            </div>
+
+
+            <div id="goalList">
+
+                <p class="empty-task-message">
+                    Your goals will appear here.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         DASHBOARD JAVASCRIPT
+    ========================== -->
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>

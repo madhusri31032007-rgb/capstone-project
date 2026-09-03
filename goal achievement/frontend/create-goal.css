@@ -1,0 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f6f4ff;
+    color: #25213b;
+}
+
+
+/* HEADER */
+
+header {
+    background: white;
+    padding: 18px 7%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6c4ce8;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #6c4ce8;
+    font-weight: 600;
+}
+
+
+/* MAIN */
+
+main {
+    min-height: calc(100vh - 140px);
+
+    display: flex;
+    justify-content: center;
+
+    padding: 50px 20px;
+}
+
+
+/* CONTAINER */
+
+.goal-container {
+    width: 100%;
+    max-width: 650px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+
+/* HEADING */
+
+.goal-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.goal-heading h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.goal-heading p {
+    color: #777;
+}
+
+
+/* FORM */
+
+.goal-form label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #333;
+}
+
+.goal-form input,
+.goal-form select,
+.goal-form textarea {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    background: white;
+}
+
+.goal-form textarea {
+    resize: vertical;
+}
+
+.goal-form input:focus,
+.goal-form select:focus,
+.goal-form textarea:focus {
+    border-color: #6c4ce8;
+}
+
+
+/* BUTTONS */
+
+.buttons {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 10px;
+}
+
+.cancel-btn {
+
+    padding: 13px 22px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    background: #eeeaff;
+
+    color: #6c4ce8;
+
+    font-weight: 600;
+}
+
+.create-btn {
+
+    padding: 13px 22px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #6c4ce8;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.create-btn:hover {
+    background: #5838c7;
+}
+
+
+/* FOOTER */
+
+footer {
+
+    background: #25213b;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 22px;
+
+    font-size: 13px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 18px 5%;
+    }
+
+    .goal-container {
+        padding: 28px 22px;
+    }
+
+    .goal-heading h1 {
+        font-size: 26px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .cancel-btn,
+    .create-btn {
+        text-align: center;
+        width: 100%;
+    }
+}
