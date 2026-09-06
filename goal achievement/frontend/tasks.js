@@ -1,178 +1,91 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const taskInput = document.querySelector("#taskInput");
-    const addTaskBtn = document.querySelector("#addTaskBtn");
-    const taskList = document.querySelector("#taskList");
+    const taskForm = document.getElementById("taskForm");
+    const taskMessage = document.getElementById("taskMessage");
 
-    // Get saved tasks
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    taskForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const taskName =
+            document.getElementById("taskName").value.trim();
+
+        const taskDescription =
+            document.getElementById("taskDescription").value.trim();
+
+        const taskDueDate =
+            document.getElementById("taskDueDate").value;
 
 
-    // -----------------------------
-    // Save tasks
-    // -----------------------------
-    function saveTasks() {
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
+        if (taskName === "") {
 
+            taskMessage.textContent =
+                "Please enter a task name.";
 
-    // -----------------------------
-    // Display tasks
-    // -----------------------------
-    function renderTasks() {
+            taskMessage.style.color = "red";
 
-        if (!taskList) return;
-
-        taskList.innerHTML = "";
-
-        if (tasks.length === 0) {
-            taskList.innerHTML = `
-                <p>No tasks for today.</p>
-            `;
             return;
         }
 
 
-        tasks.forEach(function (task, index) {
+        if (taskDueDate === "") {
 
-            const taskCard = document.createElement("div");
+            taskMessage.textContent =
+                "Please select a due date.";
 
-            taskCard.className = "task-card";
+            taskMessage.style.color = "red";
 
-
-            taskCard.innerHTML = `
-                <label class="task-item">
-
-                    <input
-                        type="checkbox"
-                        class="task-checkbox"
-                        data-index="${index}"
-                        ${task.completed ? "checked" : ""}
-                    >
-
-                    <span class="${task.completed ? "completed-task" : ""}">
-                        ${task.title}
-                    </span>
-
-                </label>
-
-                <button
-                    class="delete-task"
-                    data-index="${index}"
-                >
-                    Delete
-                </button>
-            `;
-
-
-            taskList.appendChild(taskCard);
-        });
-    }
-
-
-    // -----------------------------
-    // Add task
-    // -----------------------------
-    function addTask() {
-
-        if (!taskInput) return;
-
-        const title = taskInput.value.trim();
-
-        if (title === "") {
-            alert("Please enter a task.");
             return;
         }
 
 
+        // Get existing tasks
+        let tasks =
+            JSON.parse(localStorage.getItem("tasks")) || [];
+
+
+        // Create new task
         const newTask = {
+
             id: Date.now(),
-            title: title,
+
+            name: taskName,
+
+            description: taskDescription,
+
+            dueDate: taskDueDate,
+
             completed: false
+
         };
 
 
+        // Add task
         tasks.push(newTask);
 
-        saveTasks();
 
-        taskInput.value = "";
-
-        renderTasks();
-    }
-
-
-    // -----------------------------
-    // Add button
-    // -----------------------------
-    if (addTaskBtn) {
-
-        addTaskBtn.addEventListener("click", function () {
-            addTask();
-        });
-
-    }
+        // Save task
+        localStorage.setItem(
+            "tasks",
+            JSON.stringify(tasks)
+        );
 
 
-    // -----------------------------
-    // Enter key
-    // -----------------------------
-    if (taskInput) {
+        // Show success message
+        taskMessage.textContent =
+            "Task created successfully!";
 
-        taskInput.addEventListener("keydown", function (event) {
-
-            if (event.key === "Enter") {
-                addTask();
-            }
-
-        });
-
-    }
+        taskMessage.style.color = "green";
 
 
-    // -----------------------------
-    // Checkbox + Delete
-    // -----------------------------
-    if (taskList) {
+        // Go to dashboard
+        setTimeout(function () {
 
-        taskList.addEventListener("click", function (event) {
+            window.location.href =
+                "dashboard.html";
 
-            // Checkbox
-            if (event.target.classList.contains("task-checkbox")) {
+        }, 1000);
 
-                const index = Number(
-                    event.target.dataset.index
-                );
-
-                tasks[index].completed =
-                    event.target.checked;
-
-                saveTasks();
-
-                renderTasks();
-            }
-
-
-            // Delete
-            if (event.target.classList.contains("delete-task")) {
-
-                const index = Number(
-                    event.target.dataset.index
-                );
-
-                tasks.splice(index, 1);
-
-                saveTasks();
-
-                renderTasks();
-            }
-
-        });
-
-    }
-
-
-    // Initial display
-    renderTasks();
+    });
 
 });

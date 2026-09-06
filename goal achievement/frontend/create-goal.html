@@ -7,188 +7,447 @@
 
     <title>GoalMate - Create Goal</title>
 
-    <link rel="stylesheet" href="create-goal.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            background-image: url("background-bg.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+        }
+
+        .goal-container {
+            width: 100%;
+            max-width: 500px;
+
+            padding: 35px;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-radius: 18px;
+
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.30);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #334155;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #334155;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+
+            margin-bottom: 18px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #goalMessage {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #2563eb;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
 
-    <header>
+    <div class="goal-container">
 
-        <div class="logo">
-            🎯 GoalMate
-        </div>
+        <h1>GoalMate</h1>
 
-        <a href="dashboard.html">
+        <h2>Create a New Goal</h2>
+
+
+        <form id="goalForm">
+
+            <!-- GOAL TITLE -->
+
+            <label for="goalTitle">
+                Goal Title
+            </label>
+
+            <input
+                type="text"
+                id="goalTitle"
+                placeholder="Enter your goal"
+                required
+            >
+
+
+            <!-- DESCRIPTION -->
+
+            <label for="goalDescription">
+                Description
+            </label>
+
+            <textarea
+                id="goalDescription"
+                placeholder="Describe your goal"
+            ></textarea>
+
+
+            <!-- CATEGORY -->
+
+            <label for="goalCategory">
+                Category
+            </label>
+
+            <select id="goalCategory">
+
+                <option value="Education">
+                    Education
+                </option>
+
+                <option value="Career">
+                    Career
+                </option>
+
+                <option value="Health">
+                    Health
+                </option>
+
+                <option value="Personal">
+                    Personal
+                </option>
+
+                <option value="Finance">
+                    Finance
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <!-- PRIORITY -->
+
+            <label for="goalPriority">
+                Priority
+            </label>
+
+            <select id="goalPriority">
+
+                <option value="Low">
+                    Low
+                </option>
+
+                <option value="Medium" selected>
+                    Medium
+                </option>
+
+                <option value="High">
+                    High
+                </option>
+
+            </select>
+
+
+            <!-- TARGET DATE -->
+
+            <label for="targetDate">
+                Target Date
+            </label>
+
+            <input
+                type="date"
+                id="targetDate"
+            >
+
+
+            <!-- PROGRESS -->
+
+            <label for="goalProgress">
+                Progress (%)
+            </label>
+
+            <input
+                type="number"
+                id="goalProgress"
+                min="0"
+                max="100"
+                value="0"
+            >
+
+
+            <button type="submit">
+                Create Goal
+            </button>
+
+        </form>
+
+
+        <p id="goalMessage"></p>
+
+
+        <a
+            href="dashboard.html"
+            class="back-link"
+        >
             ← Back to Dashboard
         </a>
 
-    </header>
+    </div>
 
 
-    <main>
+    <script>
 
-        <div class="goal-container">
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
 
-            <h1>
-                Create New Goal 🎯
-            </h1>
+                const goalForm =
+                    document.getElementById("goalForm");
 
-            <p>
-                Turn your plans into achievable goals.
-            </p>
-
-
-            <form class="goal-form">
-
-                <!-- GOAL NAME -->
-
-                <label for="goal-name">
-                    Goal Name
-                </label>
-
-                <input
-                    type="text"
-                    id="goal-name"
-                    placeholder="Example: Learn Java"
-                    required
-                >
+                const goalMessage =
+                    document.getElementById("goalMessage");
 
 
-                <!-- CATEGORY -->
+                goalForm.addEventListener(
+                    "submit",
+                    function (event) {
 
-                <label for="category">
-                    Category
-                </label>
-
-                <select
-                    id="category"
-                    required
-                >
-
-                    <option value="">
-                        Select Category
-                    </option>
-
-                    <option value="Education">
-                        Education
-                    </option>
-
-                    <option value="Career">
-                        Career
-                    </option>
-
-                    <option value="Health">
-                        Health
-                    </option>
-
-                    <option value="Personal">
-                        Personal
-                    </option>
-
-                    <option value="Finance">
-                        Finance
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
-
-                </select>
+                        event.preventDefault();
 
 
-                <!-- DESCRIPTION -->
+                        // Get form values
 
-                <label for="description">
-                    Description
-                </label>
-
-                <textarea
-                    id="description"
-                    rows="5"
-                    placeholder="Describe your goal..."
-                    required
-                ></textarea>
+                        const title =
+                            document
+                                .getElementById("goalTitle")
+                                .value
+                                .trim();
 
 
-                <!-- TARGET DATE -->
-
-                <label for="date">
-                    Target Date
-                </label>
-
-                <input
-                    type="date"
-                    id="date"
-                    required
-                >
+                        const description =
+                            document
+                                .getElementById("goalDescription")
+                                .value
+                                .trim();
 
 
-                <!-- PRIORITY -->
-
-                <label for="priority">
-                    Priority
-                </label>
-
-                <select id="priority">
-
-                    <option value="Low">
-                        Low
-                    </option>
-
-                    <option
-                        value="Medium"
-                        selected
-                    >
-                        Medium
-                    </option>
-
-                    <option value="High">
-                        High
-                    </option>
-
-                </select>
+                        const category =
+                            document
+                                .getElementById("goalCategory")
+                                .value;
 
 
-                <!-- BUTTON -->
-
-                <div class="buttons">
-
-                    <a
-                        href="dashboard.html"
-                        class="cancel-btn"
-                    >
-                        Cancel
-                    </a>
-
-                    <button
-                        type="submit"
-                        class="create-btn"
-                    >
-                        Create Goal
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </main>
+                        const priority =
+                            document
+                                .getElementById("goalPriority")
+                                .value;
 
 
-    <footer>
-
-        <p>
-            © 2026 GoalMate |
-            Personal Goal Achievement Platform
-        </p>
-
-    </footer>
+                        const targetDate =
+                            document
+                                .getElementById("targetDate")
+                                .value;
 
 
-    <!-- IMPORTANT -->
+                        const progress =
+                            Number(
+                                document
+                                    .getElementById("goalProgress")
+                                    .value
+                            );
 
-    <script src="script.js"></script>
+
+                        // Validate
+
+                        if (title === "") {
+
+                            goalMessage.textContent =
+                                "Please enter a goal title.";
+
+                            goalMessage.style.color = "red";
+
+                            return;
+                        }
+
+
+                        if (
+                            progress < 0 ||
+                            progress > 100
+                        ) {
+
+                            goalMessage.textContent =
+                                "Progress must be between 0 and 100.";
+
+                            goalMessage.style.color = "red";
+
+                            return;
+                        }
+
+
+                        // Get existing goals
+
+                        let goals = [];
+
+                        try {
+
+                            goals =
+                                JSON.parse(
+                                    localStorage.getItem("goals")
+                                ) || [];
+
+                        } catch (error) {
+
+                            goals = [];
+
+                        }
+
+
+                        if (!Array.isArray(goals)) {
+                            goals = [];
+                        }
+
+
+                        // Create new goal
+
+                        const newGoal = {
+
+                            id: Date.now(),
+
+                            title: title,
+
+                            description: description,
+
+                            category: category,
+
+                            priority: priority,
+
+                            targetDate: targetDate,
+
+                            progress: progress
+
+                        };
+
+
+                        // Add goal to array
+
+                        goals.push(newGoal);
+
+
+                        // Save goals
+
+                        localStorage.setItem(
+                            "goals",
+                            JSON.stringify(goals)
+                        );
+
+
+                        // Success message
+
+                        goalMessage.textContent =
+                            "Goal created successfully!";
+
+                        goalMessage.style.color = "green";
+
+
+                        // Go to dashboard
+
+                        setTimeout(
+                            function () {
+
+                                window.location.href =
+                                    "dashboard.html";
+
+                            },
+                            800
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
 
 </body>
 

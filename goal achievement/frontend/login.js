@@ -1,69 +1,47 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Login form
     const loginForm = document.getElementById("loginForm");
-
-    // Message area
-    const message = document.getElementById("loginMessage");
-
-    // Check form exists
-    if (!loginForm) {
-        console.log("Login form not found.");
-        return;
-    }
+    const loginMessage = document.getElementById("loginMessage");
 
     loginForm.addEventListener("submit", function (event) {
 
-        // Stop page refresh
         event.preventDefault();
 
-        // Get email and password
-        const email =
-            document.getElementById("email").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
 
-        const password =
-            document.getElementById("password").value;
+        // Get registered user from localStorage
+        const storedUser = localStorage.getItem("registeredUser");
 
-        // Get registered users
-        const users =
-            JSON.parse(localStorage.getItem("users")) || [];
-
-        // Find matching user
-        const user = users.find(function (account) {
-
-            return (
-                account.email === email &&
-                account.password === password
-            );
-
-        });
-
-        // Wrong login
-        if (!user) {
-
-            message.textContent =
-                "Invalid email or password.";
-
+        // Check whether user is registered
+        if (!storedUser) {
+            loginMessage.textContent = "No registered account found. Please register first.";
+            loginMessage.style.color = "red";
             return;
         }
 
-        // Save logged-in user
-        localStorage.setItem(
-            "loggedInUser",
-            JSON.stringify(user)
-        );
+        const user = JSON.parse(storedUser);
 
-        // Success message
-        message.textContent =
-            "Login successful!";
+        // Check email and password
+        if (email === user.email && password === user.password) {
 
-        // Go to Dashboard
-        setTimeout(function () {
+            loginMessage.textContent = "Login successful!";
+            loginMessage.style.color = "green";
 
-            window.location.href =
-                "dashboard.html";
+            // Save login status
+            localStorage.setItem("isLoggedIn", "true");
 
-        }, 500);
+            // Go to dashboard
+            setTimeout(function () {
+                window.location.href = "dashboard.html";
+            }, 1000);
+
+        } else {
+
+            loginMessage.textContent = "Invalid email or password!";
+            loginMessage.style.color = "red";
+
+        }
 
     });
 

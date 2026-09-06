@@ -1,43 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Today's Tasks - GoalMate</title>
+    <title>GoalMate - Tasks</title>
 
-    <link rel="stylesheet" href="tasks.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            /* KEEP BACKGROUND IMAGE */
+            background-image: url("background-bg.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+        }
+
+        .tasks-container {
+            width: 100%;
+            max-width: 500px;
+
+            padding: 35px;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-radius: 18px;
+
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.30);
+        }
+
+        .tasks-container h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .tasks-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #334155;
+        }
+
+        .tasks-container label {
+            display: block;
+            margin-bottom: 7px;
+            color: #334155;
+            font-weight: bold;
+        }
+
+        .tasks-container input,
+        .tasks-container textarea {
+            width: 100%;
+            padding: 12px;
+
+            margin-bottom: 18px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+        .tasks-container textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .tasks-container input:focus,
+        .tasks-container textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .tasks-container button {
+            width: 100%;
+            padding: 12px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .tasks-container button:hover {
+            background: #1d4ed8;
+        }
+
+        #taskMessage {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #2563eb;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
 
-    <main class="tasks-container">
+    <div class="tasks-container">
 
-        <h1>Today's Tasks</h1>
+        <h1>GoalMate</h1>
 
-        <p class="subtitle">
-            Complete your tasks for today
-        </p>
+        <h2>Create a New Task</h2>
 
-        <div class="add-task-section">
+        <form id="taskForm">
+
+            <label for="taskName">
+                Task Name
+            </label>
 
             <input
                 type="text"
-                id="taskInput"
-                placeholder="Enter a task..."
+                id="taskName"
+                placeholder="Enter task name"
+                required
             >
 
-            <button id="addTaskBtn">
-                + Add Task
+            <label for="taskDescription">
+                Task Description
+            </label>
+
+            <textarea
+                id="taskDescription"
+                placeholder="Enter task description"
+            ></textarea>
+
+            <label for="taskDueDate">
+                Due Date
+            </label>
+
+            <input
+                type="date"
+                id="taskDueDate"
+                required
+            >
+
+            <button type="submit">
+                Create Task
             </button>
 
-        </div>
+        </form>
 
-        <div id="taskList" class="task-list"></div>
+        <p id="taskMessage"></p>
 
-    </main>
+        <a href="dashboard.html" class="back-link">
+            ← Back to Dashboard
+        </a>
+
+    </div>
 
     <script src="tasks.js"></script>
 
 </body>
+
 </html>
