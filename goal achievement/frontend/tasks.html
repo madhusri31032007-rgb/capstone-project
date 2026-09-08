@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Today's Tasks - GoalMate</title>
+
+    <link rel="stylesheet" href="tasks.css">
+</head>
+
+<body>
+
+    <main class="tasks-container">
+
+        <h1>Today's Tasks</h1>
+
+        <p class="subtitle">
+            Complete your tasks for today
+        </p>
+
+        <div class="add-task-section">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter a task..."
+            >
+
+            <button id="addTaskBtn">
+                + Add Task
+            </button>
+
+        </div>
+
+        <div id="taskList" class="task-list"></div>
+
+    </main>
+
+    <script src="tasks.js"></script>
+
+</body>
+</html>

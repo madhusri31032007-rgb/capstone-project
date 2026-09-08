@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GoalMate - Create Goal</title>
+
+    <link rel="stylesheet" href="create-goal.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            🎯 GoalMate
+        </div>
+
+        <a href="dashboard.html">
+            ← Back to Dashboard
+        </a>
+
+    </header>
+
+
+    <main>
+
+        <div class="goal-container">
+
+            <h1>
+                Create New Goal 🎯
+            </h1>
+
+            <p>
+                Turn your plans into achievable goals.
+            </p>
+
+
+            <form class="goal-form">
+
+                <!-- GOAL NAME -->
+
+                <label for="goal-name">
+                    Goal Name
+                </label>
+
+                <input
+                    type="text"
+                    id="goal-name"
+                    placeholder="Example: Learn Java"
+                    required
+                >
+
+
+                <!-- CATEGORY -->
+
+                <label for="category">
+                    Category
+                </label>
+
+                <select
+                    id="category"
+                    required
+                >
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option value="Education">
+                        Education
+                    </option>
+
+                    <option value="Career">
+                        Career
+                    </option>
+
+                    <option value="Health">
+                        Health
+                    </option>
+
+                    <option value="Personal">
+                        Personal
+                    </option>
+
+                    <option value="Finance">
+                        Finance
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+
+                <!-- DESCRIPTION -->
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    rows="5"
+                    placeholder="Describe your goal..."
+                    required
+                ></textarea>
+
+
+                <!-- TARGET DATE -->
+
+                <label for="date">
+                    Target Date
+                </label>
+
+                <input
+                    type="date"
+                    id="date"
+                    required
+                >
+
+
+                <!-- PRIORITY -->
+
+                <label for="priority">
+                    Priority
+                </label>
+
+                <select id="priority">
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                    <option
+                        value="Medium"
+                        selected
+                    >
+                        Medium
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                </select>
+
+
+                <!-- BUTTON -->
+
+                <div class="buttons">
+
+                    <a
+                        href="dashboard.html"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="create-btn"
+                    >
+                        Create Goal
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 GoalMate |
+            Personal Goal Achievement Platform
+        </p>
+
+    </footer>
+
+
+    <!-- IMPORTANT -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GoalMate</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            background-image: url("background.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .welcome-box {
+            width: 420px;
+            padding: 40px;
+
+            text-align: center;
+
+            background: rgba(255, 255, 255, 0.93);
+
+            border-radius: 20px;
+
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-box h1 {
+            font-size: 38px;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+
+        .welcome-box p {
+            color: #475569;
+            font-size: 17px;
+            margin-bottom: 25px;
+        }
+
+        .login-button,
+        .register-button {
+            display: block;
+            width: 100%;
+
+            padding: 13px;
+            margin-top: 12px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .login-button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .login-button:hover {
+            background: #1d4ed8;
+        }
+
+        .register-button {
+            background: white;
+            color: #2563eb;
+
+            border: 2px solid #2563eb;
+        }
+
+        .register-button:hover {
+            background: #eff6ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="welcome-box">
+
+        <h1>GoalMate</h1>
+
+        <p>
+            Track your goals, manage your tasks,
+            and achieve your dreams.
+        </p>
+
+        <a href="login.html" class="login-button">
+            Login
+        </a>
+
+        <a href="register.html" class="register-button">
+            Create Account
+        </a>
+
+    </div>
+
+</body>
+</html>
