@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GoalMate Profile</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .header a {
+            color: #2563eb;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-item {
+            margin-bottom: 20px;
+        }
+
+        .profile-item h3 {
+            color: #64748b;
+            margin-bottom: 7px;
+        }
+
+        .profile-item p {
+            color: #1e293b;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .logout-button {
+            margin-top: 10px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background: #b91c1c;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <h1>My Profile</h1>
+
+            <p>
+                View your GoalMate account details
+            </p>
+
+            <a href="dashboard.html">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="profile-card">
+
+            <div class="profile-item">
+
+                <h3>Name</h3>
+
+                <p id="profileName">
+                    Loading...
+                </p>
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <h3>Email</h3>
+
+                <p id="profileEmail">
+                    Loading...
+                </p>
+
+            </div>
+
+
+            <button
+                class="logout-button"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="profile.js"></script>
+
+</body>
+
+</html>
