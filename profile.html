@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - Personal Goal Achievement Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(15, 23, 42, 0.55),
+                    rgba(15, 23, 42, 0.55)
+                ),
+                url("images/goal-background.jpg");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            color: #1e293b;
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            color: white;
+            padding: 20px;
+            text-align: center;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 30px;
+        }
+
+        /* Main container */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        /* Profile card */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.97);
+
+            border-radius: 20px;
+            padding: 35px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.25);
+
+            text-align: center;
+        }
+
+        /* Profile icon */
+        .profile-icon {
+            width: 100px;
+            height: 100px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 48px;
+
+            box-shadow:
+                0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .profile-card h2 {
+            font-size: 28px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .email {
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        /* Profile information */
+        .profile-info {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 18px 5px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            font-size: 16px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .info-value {
+            color: #475569;
+        }
+
+        /* Statistics title */
+        .stats-title {
+            color: white;
+            font-size: 25px;
+            margin: 35px 0 18px;
+        }
+
+        /* Statistics grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.97);
+
+            border-radius: 18px;
+
+            padding: 28px 15px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.22);
+
+            transition: transform 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        /* Buttons */
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-btn {
+            display: inline-block;
+
+            text-decoration: none;
+
+            background: #0f172a;
+            color: white;
+
+            padding: 13px 25px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            padding: 40px;
+        }
+
+        /* Error */
+        .error {
+            background: rgba(255, 255, 255, 0.95);
+            color: #dc2626;
+
+            padding: 20px;
+            border-radius: 12px;
+
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Mobile */
+        @media (max-width: 750px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                padding: 25px 18px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>My Profile 👤</h1>
+    </header>
+
+
+    <div class="container">
+
+        <div id="loading" class="loading">
+            Loading profile...
+        </div>
+
+
+        <div id="profileContent" style="display: none;">
+
+            <!-- Profile -->
+            <div class="profile-card">
+
+                <div class="profile-icon">
+                    👤
+                </div>
+
+                <h2 id="profileName">
+                    User
+                </h2>
+
+                <p class="email" id="profileEmail">
+                    Loading...
+                </p>
+
+
+                <div class="profile-info">
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Name
+                        </span>
+
+                        <span
+                            class="info-value"
+                            id="nameValue"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Email
+                        </span>
+
+                        <span
+                            class="info-value"
+                            id="emailValue"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Member Since
+                        </span>
+
+                        <span
+                            class="info-value"
+                            id="memberSinceValue"
+                        >
+                            -
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Statistics -->
+
+            <h2 class="stats-title">
+                Your Statistics
+            </h2>
+
+
+            <div class="stats-grid">
+
+                <!-- Goals -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🎯
+                    </div>
+
+                    <h3>
+                        Total Goals
+                    </h3>
+
+                    <div
+                        class="stat-number"
+                        id="totalGoals"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <!-- Tasks -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📑
+                    </div>
+
+                    <h3>
+                        Total Tasks
+                    </h3>
+
+                    <div
+                        class="stat-number"
+                        id="totalTasks"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <!-- Completed Tasks -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                    <h3>
+                        Completed Tasks
+                    </h3>
+
+                    <div
+                        class="stat-number"
+                        id="completedTasks"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Back -->
+
+            <div class="button-container">
+
+                <a
+                    href="dashboard.html"
+                    class="back-btn"
+                >
+                    ← Back to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="errorMessage"
+            class="error"
+            style="display: none;"
+        >
+            Unable to load profile.
+        </div>
+
+    </div>
+
+
+    <script>
+
+        async function loadProfile() {
+
+            try {
+
+                /* Get logged-in user */
+
+                const meResponse =
+                    await fetch("/api/me");
+
+                if (!meResponse.ok) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                const meData =
+                    await meResponse.json();
+
+
+                if (!meData.success || !meData.user) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                const user =
+                    meData.user;
+
+
+                /* Display user information */
+
+                document.getElementById(
+                    "profileName"
+                ).textContent =
+                    user.name || "User";
+
+
+                document.getElementById(
+                    "profileEmail"
+                ).textContent =
+                    user.email || "";
+
+
+                document.getElementById(
+                    "nameValue"
+                ).textContent =
+                    user.name || "-";
+
+
+                document.getElementById(
+                    "emailValue"
+                ).textContent =
+                    user.email || "-";
+
+
+                document.getElementById(
+                    "memberSinceValue"
+                ).textContent =
+                    user.memberSince || "-";
+
+
+                /* Get goals from backend */
+
+                const goalsResponse =
+                    await fetch("/api/goals");
+
+
+                if (!goalsResponse.ok) {
+                    throw new Error(
+                        "Could not load goals"
+                    );
+                }
+
+
+                const goalsData =
+                    await goalsResponse.json();
+
+
+                const goals =
+                    goalsData.goals || [];
+
+
+                /* Get tasks from backend */
+
+                const tasksResponse =
+                    await fetch("/api/tasks");
+
+
+                if (!tasksResponse.ok) {
+                    throw new Error(
+                        "Could not load tasks"
+                    );
+                }
+
+
+                const tasksData =
+                    await tasksResponse.json();
+
+
+                const tasks =
+                    tasksData.tasks || [];
+
+
+                /* Calculate completed tasks */
+
+                const completedTasks =
+                    tasks.filter(
+                        task =>
+                            task.status === "Completed"
+                    );
+
+
+                /* Display statistics */
+
+                document.getElementById(
+                    "totalGoals"
+                ).textContent =
+                    goals.length;
+
+
+                document.getElementById(
+                    "totalTasks"
+                ).textContent =
+                    tasks.length;
+
+
+                document.getElementById(
+                    "completedTasks"
+                ).textContent =
+                    completedTasks.length;
+
+
+                /* Show profile */
+
+                document.getElementById(
+                    "loading"
+                ).style.display =
+                    "none";
+
+
+                document.getElementById(
+                    "profileContent"
+                ).style.display =
+                    "block";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Profile loading error:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "loading"
+                ).style.display =
+                    "none";
+
+
+                document.getElementById(
+                    "errorMessage"
+                ).style.display =
+                    "block";
+            }
+        }
+
+
+        loadProfile();
+
+    </script>
+
+</body>
+</html>

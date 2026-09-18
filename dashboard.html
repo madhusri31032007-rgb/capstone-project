@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Personal Goal Achievement Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #172554;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #172554;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .logout-button {
+            border: none;
+            background: white;
+            color: #172554;
+
+            padding: 9px 16px;
+            border-radius: 8px;
+
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background: #e2e8f0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .welcome-section {
+            background:
+                linear-gradient(
+                    rgba(23, 37, 84, 0.88),
+                    rgba(30, 58, 138, 0.88)
+                ),
+                url("images/goal-background.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+            color: white;
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .welcome-section h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 16px;
+            color: #e2e8f0;
+        }
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.08);
+
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #172554;
+        }
+
+        .stat-label {
+            margin-top: 7px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .quick-section {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        .quick-section h2 {
+            font-size: 23px;
+            margin-bottom: 20px;
+        }
+
+        .quick-links {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .quick-link {
+            text-decoration: none;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            text-align: center;
+
+            color: #172554;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .quick-link:hover {
+            background: #eff6ff;
+
+            border-color: #172554;
+
+            transform: translateY(-2px);
+        }
+
+        .quick-link-icon {
+            display: block;
+
+            font-size: 25px;
+
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-links {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .welcome-section {
+                padding: 28px;
+            }
+
+            .welcome-section h1 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🎯 Goal Achievement
+        </div>
+
+        <div class="nav-links">
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="goals.html">
+                Goals
+            </a>
+
+            <a href="tasks.html">
+                Tasks
+            </a>
+
+            <a href="progress.html">
+                Progress
+            </a>
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <section class="welcome-section">
+
+            <h1 id="welcomeTitle">
+                Welcome Back!
+            </h1>
+
+            <p>
+                Stay focused, keep working on your goals
+                and celebrate your progress.
+            </p>
+
+        </section>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="goalCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Total Goals
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="completedTaskCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Completed Tasks
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🏆
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="achievementCount"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Achievements
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="quick-section">
+
+            <h2>
+                Quick Access
+            </h2>
+
+            <div class="quick-links">
+
+                <a
+                    href="goals.html"
+                    class="quick-link"
+                >
+                    <span class="quick-link-icon">
+                        🎯
+                    </span>
+
+                    Manage Goals
+                </a>
+
+
+                <a
+                    href="tasks.html"
+                    class="quick-link"
+                >
+                    <span class="quick-link-icon">
+                        📋
+                    </span>
+
+                    Manage Tasks
+                </a>
+
+
+                <a
+                    href="progress.html"
+                    class="quick-link"
+                >
+                    <span class="quick-link-icon">
+                        📊
+                    </span>
+
+                    View Progress
+                </a>
+
+
+                <a
+                    href="achievements.html"
+                    class="quick-link"
+                >
+                    <span class="quick-link-icon">
+                        🏆
+                    </span>
+
+                    Achievements
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* Login protection */
+
+        const loggedIn =
+            localStorage.getItem("loggedIn");
+
+        if (loggedIn !== "true") {
+
+            alert("Please login first.");
+
+            window.location.href =
+                "login.html";
+        }
+
+
+        /* Load user information */
+
+        const savedUser =
+            localStorage.getItem("user");
+
+        if (savedUser) {
+
+            const user =
+                JSON.parse(savedUser);
+
+            document.getElementById(
+                "welcomeTitle"
+            ).textContent =
+                "Welcome Back, " +
+                user.name +
+                "!";
+        }
+
+
+        /* Load goals */
+
+        const goals =
+            JSON.parse(
+                localStorage.getItem("goals")
+            ) || [];
+
+
+        /* Load tasks */
+
+        const tasks =
+            JSON.parse(
+                localStorage.getItem("tasks")
+            ) || [];
+
+
+        /* Calculate completed tasks */
+
+        const completedTasks =
+            tasks.filter(
+                function(task) {
+                    return task.status === "Completed";
+                }
+            );
+
+
+        /*
+            Achievement calculation
+        */
+
+        let achievementCount = 0;
+
+
+        /* Goal Starter */
+
+        if (goals.length >= 1) {
+
+            achievementCount++;
+        }
+
+
+        /* Task Master */
+
+        if (completedTasks.length >= 1) {
+
+            achievementCount++;
+        }
+
+
+        /* Goal Achiever */
+
+        const goalAchieved =
+            goals.some(
+                function(goal) {
+
+                    const goalTasks =
+                        tasks.filter(
+                            function(task) {
+                                return task.goal === goal.title;
+                            }
+                        );
+
+                    return (
+                        goalTasks.length > 0 &&
+                        goalTasks.every(
+                            function(task) {
+                                return task.status === "Completed";
+                            }
+                        )
+                    );
+                }
+            );
+
+
+        if (goalAchieved) {
+
+            achievementCount++;
+        }
+
+
+        /* Display dashboard data */
+
+        document.getElementById(
+            "goalCount"
+        ).textContent =
+            goals.length;
+
+
+        document.getElementById(
+            "completedTaskCount"
+        ).textContent =
+            completedTasks.length;
+
+
+        document.getElementById(
+            "achievementCount"
+        ).textContent =
+            achievementCount;
+
+
+        /* Backend Logout */
+
+        const logoutButton =
+            document.getElementById(
+                "logoutButton"
+            );
+
+
+        logoutButton.addEventListener(
+            "click",
+            async function() {
+
+                logoutButton.disabled =
+                    true;
+
+                logoutButton.textContent =
+                    "Logging out...";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/logout",
+                            {
+                                method: "POST"
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        alert(
+                            data.message ||
+                            "Logout failed."
+                        );
+
+                        logoutButton.disabled =
+                            false;
+
+                        logoutButton.textContent =
+                            "Logout";
+
+                        return;
+                    }
+
+
+                    /*
+                        Clear frontend login state
+                    */
+
+                    localStorage.removeItem(
+                        "loggedIn"
+                    );
+
+                    localStorage.removeItem(
+                        "user"
+                    );
+
+
+                    alert(
+                        "Logged out successfully!"
+                    );
+
+
+                    window.location.href =
+                        "index.html";
+
+                } catch (error) {
+
+                    alert(
+                        "Unable to connect to the server. Please make sure Flask is running."
+                    );
+
+                    logoutButton.disabled =
+                        false;
+
+                    logoutButton.textContent =
+                        "Logout";
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - Personal Goal Achievement Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        nav {
+            background: #111827;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav h2 {
+            color: white;
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 5px 8px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .progress-box {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #2563eb;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .percentage {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .goal-progress {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+        }
+
+        .goal-name {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .small-progress-bar {
+            width: 100%;
+            height: 18px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .small-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #16a34a;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .details {
+            margin-top: 10px;
+            color: #4b5563;
+        }
+
+        .empty {
+            text-align: center;
+            color: #6b7280;
+            padding: 20px;
+        }
+
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>Goal Achievement</h2>
+
+        <div>
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/goals.html">Goals</a>
+            <a href="/tasks.html">Tasks</a>
+            <a href="/progress.html">Progress</a>
+            <a href="/achievements.html">Achievements</a>
+            <a href="/profile.html">Profile</a>
+            <a href="/settings.html">Settings</a>
+        </div>
+    </nav>
+
+
+    <div class="container">
+
+        <div class="card">
+            <h1>Overall Progress</h1>
+
+            <div class="progress-box">
+
+                <div class="progress-bar">
+                    <div
+                        id="overallProgressFill"
+                        class="progress-fill">
+                    </div>
+                </div>
+
+                <div
+                    id="overallPercentage"
+                    class="percentage">
+                    0%
+                </div>
+
+                <div
+                    id="overallDetails"
+                    class="details">
+                    Loading...
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="card">
+
+            <h2>Progress by Goal</h2>
+
+            <div id="goalProgressList">
+                <div class="empty">
+                    Loading progress...
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        async function checkLogin() {
+
+            try {
+
+                const response = await fetch("/api/me");
+
+                if (!response.ok) {
+                    window.location.href = "/login.html";
+                    return false;
+                }
+
+                return true;
+
+            } catch (error) {
+
+                window.location.href = "/login.html";
+                return false;
+            }
+        }
+
+
+        async function loadProgress() {
+
+            try {
+
+                const goalsResponse =
+                    await fetch("/api/goals");
+
+                const goalsData =
+                    await goalsResponse.json();
+
+
+                const tasksResponse =
+                    await fetch("/api/tasks");
+
+                const tasksData =
+                    await tasksResponse.json();
+
+
+                if (!goalsData.success ||
+                    !tasksData.success) {
+
+                    document.getElementById(
+                        "overallDetails"
+                    ).textContent =
+                        "Unable to load progress.";
+
+                    return;
+                }
+
+
+                const goals = goalsData.goals;
+                const tasks = tasksData.tasks;
+
+
+                const totalTasks = tasks.length;
+
+
+                const completedTasks =
+                    tasks.filter(function(task) {
+
+                        return task.status === "Completed";
+
+                    }).length;
+
+
+                let overallPercentage = 0;
+
+
+                if (totalTasks > 0) {
+
+                    overallPercentage =
+                        Math.round(
+                            (completedTasks / totalTasks) * 100
+                        );
+
+                }
+
+
+                document.getElementById(
+                    "overallProgressFill"
+                ).style.width =
+                    overallPercentage + "%";
+
+
+                document.getElementById(
+                    "overallPercentage"
+                ).textContent =
+                    overallPercentage + "%";
+
+
+                document.getElementById(
+                    "overallDetails"
+                ).textContent =
+                    completedTasks +
+                    " of " +
+                    totalTasks +
+                    " tasks completed.";
+
+
+                const goalProgressList =
+                    document.getElementById(
+                        "goalProgressList"
+                    );
+
+
+                goalProgressList.innerHTML = "";
+
+
+                if (goals.length === 0) {
+
+                    const emptyMessage =
+                        document.createElement("div");
+
+                    emptyMessage.className = "empty";
+
+                    emptyMessage.textContent =
+                        "No goals available.";
+
+                    goalProgressList.appendChild(
+                        emptyMessage
+                    );
+
+                    return;
+                }
+
+
+                goals.forEach(function(goal) {
+
+                    const goalTasks =
+                        tasks.filter(function(task) {
+
+                            return task.goal === goal.title;
+
+                        });
+
+
+                    const goalTotal =
+                        goalTasks.length;
+
+
+                    const goalCompleted =
+                        goalTasks.filter(function(task) {
+
+                            return task.status === "Completed";
+
+                        }).length;
+
+
+                    let goalPercentage = 0;
+
+
+                    if (goalTotal > 0) {
+
+                        goalPercentage =
+                            Math.round(
+                                (goalCompleted / goalTotal) * 100
+                            );
+
+                    }
+
+
+                    const goalBox =
+                        document.createElement("div");
+
+                    goalBox.className =
+                        "goal-progress";
+
+
+                    const goalName =
+                        document.createElement("div");
+
+                    goalName.className =
+                        "goal-name";
+
+                    goalName.textContent =
+                        goal.title;
+
+
+                    const smallBar =
+                        document.createElement("div");
+
+                    smallBar.className =
+                        "small-progress-bar";
+
+
+                    const smallFill =
+                        document.createElement("div");
+
+                    smallFill.className =
+                        "small-progress-fill";
+
+                    smallFill.style.width =
+                        goalPercentage + "%";
+
+
+                    const details =
+                        document.createElement("div");
+
+                    details.className =
+                        "details";
+
+                    details.textContent =
+                        goalCompleted +
+                        " of " +
+                        goalTotal +
+                        " tasks completed — " +
+                        goalPercentage +
+                        "%";
+
+
+                    smallBar.appendChild(
+                        smallFill
+                    );
+
+
+                    goalBox.appendChild(
+                        goalName
+                    );
+
+                    goalBox.appendChild(
+                        smallBar
+                    );
+
+                    goalBox.appendChild(
+                        details
+                    );
+
+
+                    goalProgressList.appendChild(
+                        goalBox
+                    );
+
+                });
+
+
+            } catch (error) {
+
+                document.getElementById(
+                    "overallDetails"
+                ).textContent =
+                    "Unable to load progress.";
+
+            }
+
+        }
+
+
+        async function startPage() {
+
+            const loggedIn =
+                await checkLogin();
+
+
+            if (!loggedIn) {
+                return;
+            }
+
+
+            await loadProgress();
+
+        }
+
+
+        startPage();
+
+    </script>
+
+</body>
+</html>

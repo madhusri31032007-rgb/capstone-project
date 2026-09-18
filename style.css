@@ -1,0 +1,198 @@
+/* ========================================
+   Personal Goal Achievement Platform
+   Main Stylesheet
+======================================== */
+
+
+/* ---------- General ---------- */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #333;
+}
+
+h1,
+h2,
+h3 {
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ---------- Common Header ---------- */
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    color: white;
+}
+
+
+/* ---------- Common Container ---------- */
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+
+/* ---------- Common Card ---------- */
+
+.card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ---------- Common Button ---------- */
+
+button,
+.primary-button {
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+.primary-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+}
+
+.primary-button:hover {
+    background-color: #555;
+}
+
+
+/* ---------- Form Elements ---------- */
+
+input,
+select,
+textarea {
+    font-family: Arial, sans-serif;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #333;
+}
+
+
+/* ---------- Back Link ---------- */
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 6px;
+}
+
+.back-link:hover {
+    background-color: #555;
+}
+
+
+/* ---------- Home Page ---------- */
+
+body.home-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.home-container {
+    background-color: white;
+    padding: 45px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
+    width: 90%;
+    max-width: 650px;
+}
+
+.home-container h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.home-container p {
+    color: #666;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.home-buttons {
+    margin-top: 30px;
+}
+
+.home-buttons a {
+    display: inline-block;
+    padding: 12px 28px;
+    margin: 8px;
+    background-color: #333;
+    color: white;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.home-buttons a:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .home-container {
+        padding: 30px 20px;
+    }
+
+    .home-container h1 {
+        font-size: 30px;
+    }
+
+    .home-container p {
+        font-size: 16px;
+    }
+
+    .home-buttons a {
+        display: block;
+        margin: 10px auto;
+        max-width: 220px;
+    }
+}

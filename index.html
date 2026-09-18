@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Personal Goal Achievement Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        /* Header */
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        /* Hero Section */
+
+        .hero {
+            min-height: calc(100vh - 68px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .hero-card {
+            width: 100%;
+            max-width: 850px;
+            background-color: white;
+            padding: 55px 45px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+        }
+
+        /* Hero Icon */
+
+        .hero-icon {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        /* Heading */
+
+        .hero-card h2 {
+            margin: 0 0 18px;
+            font-size: 38px;
+            color: #333;
+        }
+
+        /* Description */
+
+        .hero-card p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #666;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        /* Features */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 35px 0;
+        }
+
+        .feature {
+            padding: 20px 12px;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .feature strong {
+            display: block;
+            font-size: 15px;
+        }
+
+        /* Buttons */
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        .buttons a {
+            display: inline-block;
+            padding: 13px 30px;
+            margin: 7px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .login-button {
+            background-color: #333;
+            color: white;
+        }
+
+        .register-button {
+            background-color: white;
+            color: #333;
+            border: 1px solid #333;
+        }
+
+        .buttons a:hover {
+            transform: translateY(-2px);
+            opacity: 0.85;
+        }
+
+        /* Footer Text */
+
+        .footer-text {
+            margin-top: 25px !important;
+            font-size: 13px !important;
+            color: #888 !important;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .hero {
+                padding: 25px 15px;
+            }
+
+            .hero-card {
+                padding: 35px 20px;
+            }
+
+            .hero-icon {
+                font-size: 50px;
+            }
+
+            .hero-card h2 {
+                font-size: 29px;
+            }
+
+            .hero-card p {
+                font-size: 16px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons a {
+                display: block;
+                max-width: 240px;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <h1>
+            Personal Goal Achievement Platform
+        </h1>
+
+    </div>
+
+
+    <!-- Hero Section -->
+
+    <section class="hero">
+
+        <div class="hero-card">
+
+            <div class="hero-icon">
+                🎯
+            </div>
+
+
+            <h2>
+                Turn Your Goals Into Achievements
+            </h2>
+
+
+            <p>
+                Set your goals, break them into manageable
+                tasks, track your progress and celebrate
+                every achievement along the way.
+            </p>
+
+
+            <!-- Features -->
+
+            <div class="features">
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        🎯
+                    </div>
+
+                    <strong>
+                        Set Goals
+                    </strong>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ✅
+                    </div>
+
+                    <strong>
+                        Manage Tasks
+                    </strong>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        📊
+                    </div>
+
+                    <strong>
+                        Track Progress
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="buttons">
+
+                <a
+                    href="login.html"
+                    class="login-button"
+                >
+                    🚀 Get Started
+                </a>
+
+
+                <a
+                    href="register.html"
+                    class="register-button"
+                >
+                    📝 Create Account
+                </a>
+
+            </div>
+
+
+            <p class="footer-text">
+                Your journey starts with one goal.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <script>
+
+        // ========================================
+        // If Already Logged In
+        // ========================================
+
+        const loggedIn =
+            localStorage.getItem("loggedIn");
+
+
+        // Keep Home page available after logout.
+        // Logged-in users can still use the Home page.
+
+    </script>
+
+</body>
+
+</html>

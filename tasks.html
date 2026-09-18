@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - Personal Goal Achievement Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        nav {
+            background: #111827;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav h2 {
+            color: white;
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 5px 8px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 18px;
+            padding: 11px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .task-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+            background: #fafafa;
+        }
+
+        .task-card.completed {
+            opacity: 0.7;
+            background: #ecfdf5;
+        }
+
+        .task-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .task-name {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .task-details {
+            margin-top: 10px;
+            line-height: 1.7;
+        }
+
+        .complete-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .complete-area input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            background: #dc2626;
+            margin-top: 12px;
+        }
+
+        .delete-button:hover {
+            background: #b91c1c;
+        }
+
+        .success {
+            color: #15803d;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .empty {
+            color: #6b7280;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h2>Goal Achievement</h2>
+
+        <div>
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/goals.html">Goals</a>
+            <a href="/tasks.html">Tasks</a>
+            <a href="/progress.html">Progress</a>
+            <a href="/achievements.html">Achievements</a>
+            <a href="/profile.html">Profile</a>
+            <a href="/settings.html">Settings</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+            <h1>Tasks</h1>
+
+            <form id="taskForm">
+
+                <label for="taskName">Task Name</label>
+                <input
+                    type="text"
+                    id="taskName"
+                    placeholder="Enter task name"
+                    required
+                >
+
+                <label for="taskGoal">Select Goal</label>
+                <select id="taskGoal" required>
+                    <option value="">Loading goals...</option>
+                </select>
+
+                <label for="taskPriority">Priority</label>
+                <select id="taskPriority">
+                    <option value="Low">Low</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="High">High</option>
+                </select>
+
+                <label for="taskDeadline">Deadline</label>
+                <input
+                    type="date"
+                    id="taskDeadline"
+                >
+
+                <button type="submit">Add Task</button>
+
+                <div id="message"></div>
+
+            </form>
+        </div>
+
+
+        <div class="card">
+            <h2>Your Tasks</h2>
+
+            <div id="taskList">
+                <div class="empty">Loading tasks...</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        async function checkLogin() {
+
+            try {
+
+                const response = await fetch("/api/me");
+
+                if (!response.ok) {
+                    window.location.href = "/login.html";
+                    return false;
+                }
+
+                return true;
+
+            } catch (error) {
+
+                window.location.href = "/login.html";
+                return false;
+            }
+        }
+
+
+        async function loadGoals() {
+
+            const goalSelect = document.getElementById("taskGoal");
+
+            try {
+
+                const response = await fetch("/api/goals");
+
+                const data = await response.json();
+
+                goalSelect.innerHTML = "";
+
+                if (!data.success || data.goals.length === 0) {
+
+                    const option = document.createElement("option");
+                    option.value = "";
+                    option.textContent = "No goals available";
+
+                    goalSelect.appendChild(option);
+
+                    return;
+                }
+
+                const firstOption = document.createElement("option");
+                firstOption.value = "";
+                firstOption.textContent = "Select a goal";
+
+                goalSelect.appendChild(firstOption);
+
+                data.goals.forEach(function(goal) {
+
+                    const option = document.createElement("option");
+
+                    option.value = goal.title;
+                    option.textContent = goal.title;
+
+                    goalSelect.appendChild(option);
+                });
+
+            } catch (error) {
+
+                goalSelect.innerHTML = "";
+
+                const option = document.createElement("option");
+                option.value = "";
+                option.textContent = "Unable to load goals";
+
+                goalSelect.appendChild(option);
+            }
+        }
+
+
+        async function loadTasks() {
+
+            const taskList = document.getElementById("taskList");
+
+            try {
+
+                const response = await fetch("/api/tasks");
+
+                const data = await response.json();
+
+                taskList.innerHTML = "";
+
+                if (!data.success || data.tasks.length === 0) {
+
+                    const emptyMessage = document.createElement("div");
+
+                    emptyMessage.className = "empty";
+                    emptyMessage.textContent = "No tasks yet.";
+
+                    taskList.appendChild(emptyMessage);
+
+                    return;
+                }
+
+
+                data.tasks.forEach(function(task) {
+
+                    const taskCard = document.createElement("div");
+
+                    taskCard.className = "task-card";
+
+                    if (task.status === "Completed") {
+                        taskCard.classList.add("completed");
+                    }
+
+
+                    const taskTop = document.createElement("div");
+
+                    taskTop.className = "task-top";
+
+
+                    const taskName = document.createElement("div");
+
+                    taskName.className = "task-name";
+                    taskName.textContent = task.name;
+
+
+                    const completeArea = document.createElement("label");
+
+                    completeArea.className = "complete-area";
+
+
+                    const checkbox = document.createElement("input");
+
+                    checkbox.type = "checkbox";
+
+                    checkbox.checked = task.status === "Completed";
+
+
+                    const checkboxText = document.createElement("span");
+
+                    checkboxText.textContent = "Completed";
+
+
+                    checkbox.addEventListener("change", function() {
+
+                        updateTaskStatus(
+                            task.id,
+                            checkbox.checked,
+                            taskCard
+                        );
+
+                    });
+
+
+                    completeArea.appendChild(checkbox);
+                    completeArea.appendChild(checkboxText);
+
+
+                    taskTop.appendChild(taskName);
+                    taskTop.appendChild(completeArea);
+
+
+                    const details = document.createElement("div");
+
+                    details.className = "task-details";
+
+                    details.textContent =
+                        "Goal: " + (task.goal || "No goal") +
+                        " | Priority: " + (task.priority || "Not set") +
+                        " | Deadline: " + (task.deadline || "No deadline") +
+                        " | Status: " + (task.status || "Pending");
+
+
+                    const deleteButton = document.createElement("button");
+
+                    deleteButton.className = "delete-button";
+                    deleteButton.textContent = "Delete";
+
+                    deleteButton.addEventListener("click", function() {
+
+                        deleteTask(task.id);
+
+                    });
+
+
+                    taskCard.appendChild(taskTop);
+                    taskCard.appendChild(details);
+                    taskCard.appendChild(deleteButton);
+
+
+                    taskList.appendChild(taskCard);
+
+                });
+
+            } catch (error) {
+
+                taskList.innerHTML = "";
+
+                const errorMessage = document.createElement("div");
+
+                errorMessage.className = "error";
+                errorMessage.textContent = "Unable to load tasks.";
+
+                taskList.appendChild(errorMessage);
+            }
+        }
+
+
+        async function updateTaskStatus(taskId, isCompleted, taskCard) {
+
+            const newStatus = isCompleted
+                ? "Completed"
+                : "Pending";
+
+
+            try {
+
+                const response = await fetch(
+                    "/api/tasks/" + taskId,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            status: newStatus
+                        })
+                    }
+                );
+
+
+                const data = await response.json();
+
+
+                if (!data.success) {
+
+                    alert(data.message || "Unable to update task.");
+
+                    return;
+                }
+
+
+                if (isCompleted) {
+                    taskCard.classList.add("completed");
+                } else {
+                    taskCard.classList.remove("completed");
+                }
+
+
+                loadTasks();
+
+            } catch (error) {
+
+                alert("Unable to update task.");
+
+            }
+        }
+
+
+        async function deleteTask(taskId) {
+
+            const confirmed = confirm(
+                "Are you sure you want to delete this task?"
+            );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    "/api/tasks/" + taskId,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+                const data = await response.json();
+
+
+                if (!data.success) {
+
+                    alert(data.message || "Unable to delete task.");
+
+                    return;
+                }
+
+
+                loadTasks();
+
+            } catch (error) {
+
+                alert("Unable to delete task.");
+
+            }
+        }
+
+
+        document
+            .getElementById("taskForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+
+                const taskName =
+                    document.getElementById("taskName").value.trim();
+
+                const taskGoal =
+                    document.getElementById("taskGoal").value;
+
+                const taskPriority =
+                    document.getElementById("taskPriority").value;
+
+                const taskDeadline =
+                    document.getElementById("taskDeadline").value;
+
+                const message =
+                    document.getElementById("message");
+
+
+                if (!taskName || !taskGoal) {
+
+                    message.className = "error";
+                    message.textContent =
+                        "Please enter task name and select a goal.";
+
+                    return;
+                }
+
+
+                try {
+
+                    const response = await fetch(
+                        "/api/tasks",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name: taskName,
+                                goal: taskGoal,
+                                priority: taskPriority,
+                                deadline: taskDeadline
+                            })
+                        }
+                    );
+
+
+                    const data = await response.json();
+
+
+                    if (!data.success) {
+
+                        message.className = "error";
+                        message.textContent =
+                            data.message || "Unable to add task.";
+
+                        return;
+                    }
+
+
+                    message.className = "success";
+                    message.textContent =
+                        "Task added successfully!";
+
+
+                    document
+                        .getElementById("taskForm")
+                        .reset();
+
+
+                    await loadGoals();
+                    await loadTasks();
+
+
+                } catch (error) {
+
+                    message.className = "error";
+                    message.textContent =
+                        "Unable to connect to backend.";
+
+                }
+
+            });
+
+
+        async function startPage() {
+
+            const loggedIn = await checkLogin();
+
+            if (!loggedIn) {
+                return;
+            }
+
+            await loadGoals();
+            await loadTasks();
+        }
+
+
+        startPage();
+
+    </script>
+
+</body>
+</html>

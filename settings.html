@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings - Personal Goal Achievement Platform</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1e293b;
+        }
+
+        nav {
+            background: #0f172a;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav h2 {
+            margin: 0;
+            color: white;
+        }
+
+        nav div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #93c5fd;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 40px auto;
+        }
+
+        .settings-card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            color: #0f172a;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid #e2e8f0;
+            gap: 20px;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-info h3 {
+            margin: 0 0 6px;
+            font-size: 17px;
+        }
+
+        .setting-info p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #cbd5e1;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .switch input:checked + .slider {
+            background: #2563eb;
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(24px);
+        }
+
+        .language-section {
+            margin-top: 25px;
+        }
+
+        .language-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+
+        .save-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #0f172a;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #1e293b;
+        }
+
+        #message {
+            display: none;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 15px;
+            }
+
+            nav div {
+                margin-top: 12px;
+                gap: 12px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .settings-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+
+        <h2>Goal Achievement</h2>
+
+        <div>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="goals.html">Goals</a>
+            <a href="tasks.html">Tasks</a>
+            <a href="profile.html">Profile</a>
+            <a href="settings.html">Settings</a>
+        </div>
+
+    </nav>
+
+
+    <div class="container">
+
+        <div class="settings-card">
+
+            <h1>Settings</h1>
+
+            <p class="subtitle">
+                Manage your notification and application preferences
+            </p>
+
+
+            <div class="setting-item">
+
+                <div class="setting-info">
+                    <h3>Email Notifications</h3>
+                    <p>Receive important updates through email.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" id="emailNotifications">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <div class="setting-item">
+
+                <div class="setting-info">
+                    <h3>Goal Reminders</h3>
+                    <p>Receive reminders about your goals.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" id="goalReminders">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <div class="setting-item">
+
+                <div class="setting-info">
+                    <h3>Task Reminders</h3>
+                    <p>Receive reminders about pending tasks.</p>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" id="taskReminders">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <div class="language-section">
+
+                <label for="language">
+                    App Language
+                </label>
+
+                <select id="language">
+                    <option value="English">English</option>
+                    <option value="Tamil">Tamil</option>
+                </select>
+
+            </div>
+
+
+            <button class="save-btn" id="saveButton">
+                Save Settings
+            </button>
+
+
+            <div id="message"></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        async function checkLogin() {
+
+            try {
+
+                const response = await fetch("/api/me");
+
+                if (!response.ok) {
+
+                    window.location.href = "login.html";
+
+                    return false;
+                }
+
+                const data = await response.json();
+
+                if (!data.success) {
+
+                    window.location.href = "login.html";
+
+                    return false;
+                }
+
+                return true;
+
+            } catch (error) {
+
+                console.error(error);
+
+                window.location.href = "login.html";
+
+                return false;
+            }
+        }
+
+
+        async function loadSettings() {
+
+            try {
+
+                const response = await fetch("/api/settings");
+
+                if (!response.ok) {
+
+                    throw new Error("Unable to load settings");
+                }
+
+                const data = await response.json();
+
+                if (!data.success) {
+
+                    throw new Error(
+                        data.message || "Unable to load settings"
+                    );
+                }
+
+                const settings = data.settings;
+
+                document.getElementById(
+                    "emailNotifications"
+                ).checked = Boolean(settings.email_notifications);
+
+                document.getElementById(
+                    "goalReminders"
+                ).checked = Boolean(settings.goal_reminders);
+
+                document.getElementById(
+                    "taskReminders"
+                ).checked = Boolean(settings.task_reminders);
+
+                document.getElementById(
+                    "language"
+                ).value = settings.language || "English";
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to load settings.",
+                    "error"
+                );
+            }
+        }
+
+
+        async function saveSettings() {
+
+            const settings = {
+
+                email_notifications:
+                    document.getElementById(
+                        "emailNotifications"
+                    ).checked ? 1 : 0,
+
+                goal_reminders:
+                    document.getElementById(
+                        "goalReminders"
+                    ).checked ? 1 : 0,
+
+                task_reminders:
+                    document.getElementById(
+                        "taskReminders"
+                    ).checked ? 1 : 0,
+
+                language:
+                    document.getElementById(
+                        "language"
+                    ).value
+            };
+
+
+            try {
+
+                const response = await fetch(
+                    "/api/settings",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(settings)
+                    }
+                );
+
+
+                const data = await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message || "Unable to save settings"
+                    );
+                }
+
+
+                showMessage(
+                    "Settings saved successfully!",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to save settings.",
+                    "error"
+                );
+            }
+        }
+
+
+        function showMessage(text, type) {
+
+            const message =
+                document.getElementById("message");
+
+            message.textContent = text;
+
+            message.className = type;
+
+            message.style.display = "block";
+
+            setTimeout(function () {
+
+                message.style.display = "none";
+
+            }, 3000);
+        }
+
+
+        document
+            .getElementById("saveButton")
+            .addEventListener("click", saveSettings);
+
+
+        async function initializeSettings() {
+
+            const loggedIn = await checkLogin();
+
+            if (!loggedIn) {
+                return;
+            }
+
+            await loadSettings();
+        }
+
+
+        initializeSettings();
+
+    </script>
+
+</body>
+</html>
