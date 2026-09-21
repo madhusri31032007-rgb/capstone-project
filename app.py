@@ -3,6 +3,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 from pathlib import Path
 from datetime import datetime
+import os
+import smtplib
+import secrets
+import time
+from email.message import EmailMessage
 
 app = Flask(__name__)
 
@@ -10,6 +15,54 @@ BASE_DIR = Path(__file__).resolve().parent
 DATABASE = BASE_DIR / "goal_app.db"
 
 app.secret_key = "personal-goal-platform-secret-key-2026"
+
+
+# =========================
+# EMAIL SETTINGS
+# =========================
+
+EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+
+
+def send_otp_email(receiver_email, otp):
+    if not EMAIL_ADDRESS or not EMAIL_PASSWORD:
+        return False, "Email configuration is missing."
+
+    message = EmailMessage()
+
+    message["Subject"] = "Personal Goal Achievement Platform - Email Verification"
+    message["From"] = EMAIL_ADDRESS
+    message["To"] = receiver_email
+
+    message.set_content(
+        f"""
+Hello,
+
+Your OTP for creating an account in Personal Goal Achievement Platform is:
+
+{otp}
+
+This OTP is valid for 5 minutes.
+
+If you did not request this verification, please ignore this email.
+
+Thank you,
+Personal Goal Achievement Platform
+"""
+    )
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.send_message(message)
+
+        return True, "OTP sent successfully."
+
+    except Exception as error:
+        print("Email error:", error)
+        return False, "Unable to send OTP email."
 
 
 # =========================
@@ -72,6 +125,16 @@ def init_db():
                 REFERENCES users(id)
                 ON DELETE CASCADE
         );
+
+        CREATE TABLE IF NOT EXISTS pending_registrations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            otp TEXT NOT NULL,
+            expires_at INTEGER NOT NULL,
+            created_at INTEGER NOT NULL
+        );
     """)
 
     connection.commit()
@@ -125,7 +188,7 @@ def database_status():
 
 
 # =========================
-# REGISTER
+# REGISTER - SEND OTP
 # =========================
 
 @app.route("/api/register", methods=["POST"])
@@ -169,16 +232,182 @@ def register():
             "message": "An account with this email already exists."
         }), 409
 
+    otp = f"{secrets.randbelow(1000000):06d}"
+    expires_at = int(time.time()) + 300
+    created_at = int(time.time())
+
     password_hash = generate_password_hash(password)
+
+    connection.execute(
+        "DELETE FROM pending_registrations WHERE email = ?",
+        (email,)
+    )
+
+    connection.execute(
+        """
+        INSERT INTO pending_registrations
+        (
+            name,
+            email,
+            password,
+            otp,
+            expires_at,
+            created_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (
+            name,
+            email,
+            password_hash,
+            generate_password_hash(otp),
+            expires_at,
+            created_at
+        )
+    )
+
+    connection.commit()
+    connection.close()
+
+    sent, message = send_otp_email(email, otp)
+
+    if not sent:
+        connection = get_db()
+
+        connection.execute(
+            "DELETE FROM pending_registrations WHERE email = ?",
+            (email,)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return jsonify({
+            "success": False,
+            "message": message
+        }), 500
+
+    return jsonify({
+        "success": True,
+        "message": "OTP sent to your email.",
+        "requiresOtp": True
+    })
+
+
+# =========================
+# VERIFY OTP AND CREATE ACCOUNT
+# =========================
+
+@app.route("/api/verify-otp", methods=["POST"])
+def verify_otp():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({
+            "success": False,
+            "message": "No data received."
+        }), 400
+
+    email = data.get("email", "").strip().lower()
+    otp = data.get("otp", "").strip()
+
+    if not email or not otp:
+        return jsonify({
+            "success": False,
+            "message": "Email and OTP are required."
+        }), 400
+
+    if not otp.isdigit() or len(otp) != 6:
+        return jsonify({
+            "success": False,
+            "message": "Please enter a valid 6-digit OTP."
+        }), 400
+
+    connection = get_db()
+
+    pending = connection.execute(
+        """
+        SELECT
+            id,
+            name,
+            email,
+            password,
+            otp,
+            expires_at
+        FROM pending_registrations
+        WHERE email = ?
+        """,
+        (email,)
+    ).fetchone()
+
+    if not pending:
+        connection.close()
+
+        return jsonify({
+            "success": False,
+            "message": "OTP not found. Please register again."
+        }), 404
+
+    if int(time.time()) > pending["expires_at"]:
+        connection.execute(
+            "DELETE FROM pending_registrations WHERE email = ?",
+            (email,)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return jsonify({
+            "success": False,
+            "message": "OTP has expired. Please register again."
+        }), 400
+
+    if not check_password_hash(pending["otp"], otp):
+        connection.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Incorrect OTP."
+        }), 400
+
+    existing_user = connection.execute(
+        "SELECT id FROM users WHERE email = ?",
+        (email,)
+    ).fetchone()
+
+    if existing_user:
+        connection.execute(
+            "DELETE FROM pending_registrations WHERE email = ?",
+            (email,)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return jsonify({
+            "success": False,
+            "message": "An account with this email already exists."
+        }), 409
+
     member_since = datetime.now().strftime("%Y-%m-%d")
 
     cursor = connection.execute(
         """
         INSERT INTO users
-        (name, email, password, member_since)
+        (
+            name,
+            email,
+            password,
+            member_since
+        )
         VALUES (?, ?, ?, ?)
         """,
-        (name, email, password_hash, member_since)
+        (
+            pending["name"],
+            pending["email"],
+            pending["password"],
+            member_since
+        )
     )
 
     user_id = cursor.lastrowid
@@ -196,6 +425,11 @@ def register():
         VALUES (?, 1, 1, 1, 'English')
         """,
         (user_id,)
+    )
+
+    connection.execute(
+        "DELETE FROM pending_registrations WHERE email = ?",
+        (email,)
     )
 
     connection.commit()

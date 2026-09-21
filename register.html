@@ -226,6 +226,74 @@
             color: #172554;
         }
 
+        .otp-section {
+            display: none;
+        }
+
+        .otp-info {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .otp-input {
+            text-align: center;
+            letter-spacing: 6px;
+            font-size: 22px !important;
+            font-weight: bold;
+        }
+
+        .verify-button {
+            width: 100%;
+
+            margin-top: 8px;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #172554;
+            color: white;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        .verify-button:hover {
+            background: #1e3a8a;
+        }
+
+        .verify-button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .back-button {
+            width: 100%;
+
+            margin-top: 10px;
+
+            padding: 11px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+
+            background: white;
+            color: #475569;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: #f8fafc;
+        }
+
         @media (max-width: 800px) {
             body {
                 padding: 20px;
@@ -263,7 +331,11 @@
     <div class="page-wrapper">
 
         <div class="left-content">
-            <h1>Build Your Goals.<br>Achieve Your Future.</h1>
+
+            <h1>
+                Build Your Goals.<br>
+                Achieve Your Future.
+            </h1>
 
             <p>
                 Create your personal goals, organize your tasks,
@@ -273,6 +345,7 @@
             <div class="tagline">
                 Start today. Stay consistent. Achieve more.
             </div>
+
         </div>
 
 
@@ -282,74 +355,174 @@
                 🎯
             </div>
 
-            <h2>Create Account</h2>
 
-            <p class="subtitle">
-                Start your personal goal journey today
-            </p>
+            <!-- ========================= -->
+            <!-- REGISTRATION SECTION -->
+            <!-- ========================= -->
+
+            <div id="registerSection">
+
+                <h2>Create Account</h2>
+
+                <p class="subtitle">
+                    Start your personal goal journey today
+                </p>
 
 
-            <form id="registerForm">
+                <form id="registerForm">
 
-                <div class="form-group">
-                    <label for="registerName">Full Name</label>
+                    <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="registerName"
-                        placeholder="Enter your name"
-                        required
+                        <label for="registerName">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="registerName"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="registerEmail">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="registerEmail"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="registerPassword">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="registerPassword"
+                            placeholder="Create a password"
+                            minlength="6"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                            minlength="6"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="register-button"
                     >
-                </div>
+                        Create Account
+                    </button>
+
+                </form>
+
+            </div>
 
 
-                <div class="form-group">
-                    <label for="registerEmail">Email Address</label>
+            <!-- ========================= -->
+            <!-- OTP SECTION -->
+            <!-- ========================= -->
 
-                    <input
-                        type="email"
-                        id="registerEmail"
-                        placeholder="Enter your email"
-                        required
+            <div id="otpSection" class="otp-section">
+
+                <h2>Verify Email</h2>
+
+                <p class="subtitle">
+                    Enter the OTP sent to your email
+                </p>
+
+                <p
+                    id="otpInfo"
+                    class="otp-info"
+                >
+                    A 6-digit OTP has been sent to your email.
+                </p>
+
+                <p
+                    id="otpTimer"
+                    class="otp-info"
+                >
+                    OTP expires in: 05:00
+                </p>
+
+
+                <form id="otpForm">
+
+                    <div class="form-group">
+
+                        <label for="otpInput">
+                            Enter OTP
+                        </label>
+
+                        <input
+                            type="text"
+                            id="otpInput"
+                            class="otp-input"
+                            placeholder="000000"
+                            maxlength="6"
+                            inputmode="numeric"
+                            autocomplete="one-time-code"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="verifyButton"
+                        class="verify-button"
                     >
-                </div>
+                        Verify OTP
+                    </button>
 
-
-                <div class="form-group">
-                    <label for="registerPassword">Password</label>
-
-                    <input
-                        type="password"
-                        id="registerPassword"
-                        placeholder="Create a password"
-                        minlength="6"
-                        required
-                    >
-                </div>
-
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirm your password"
-                        minlength="6"
-                        required
-                    >
-                </div>
+                </form>
 
 
                 <button
-                    type="submit"
-                    class="register-button"
+                    type="button"
+                    id="backButton"
+                    class="back-button"
                 >
-                    Create Account
+                    ← Back
                 </button>
 
-            </form>
+            </div>
 
+
+            <!-- ========================= -->
+            <!-- MESSAGES -->
+            <!-- ========================= -->
 
             <div
                 id="errorMessage"
@@ -363,7 +536,14 @@
             ></div>
 
 
-            <div class="login-link">
+            <!-- ========================= -->
+            <!-- LINKS -->
+            <!-- ========================= -->
+
+            <div
+                id="loginLink"
+                class="login-link"
+            >
                 Already have an account?
                 <a href="login.html">Login</a>
             </div>
@@ -383,8 +563,38 @@
 
     <script>
 
+        // ==========================================
+        // FORCE REGISTER PAGE TO FLASK SERVER
+        // ==========================================
+
+        const FLASK_URL =
+            "http://127.0.0.1:5000";
+
+        if (
+            window.location.origin !==
+            FLASK_URL
+        ) {
+            window.location.replace(
+                FLASK_URL + "/register.html"
+            );
+        }
+
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
         const registerForm =
             document.getElementById("registerForm");
+
+        const otpForm =
+            document.getElementById("otpForm");
+
+        const registerSection =
+            document.getElementById("registerSection");
+
+        const otpSection =
+            document.getElementById("otpSection");
 
         const errorMessage =
             document.getElementById("errorMessage");
@@ -392,6 +602,183 @@
         const successMessage =
             document.getElementById("successMessage");
 
+        const loginLink =
+            document.getElementById("loginLink");
+
+        const backButton =
+            document.getElementById("backButton");
+
+        const otpInfo =
+            document.getElementById("otpInfo");
+
+        const otpTimer =
+            document.getElementById("otpTimer");
+
+        const verifyButton =
+            document.getElementById("verifyButton");
+
+        const otpInput =
+            document.getElementById("otpInput");
+
+
+        // ==========================================
+        // VARIABLES
+        // ==========================================
+
+        let registeredEmail = "";
+
+        let otpTimerInterval = null;
+
+        let otpExpiresAt = 0;
+
+
+        // ==========================================
+        // SHOW ERROR
+        // ==========================================
+
+        function showError(message) {
+
+            errorMessage.textContent =
+                message;
+
+            errorMessage.style.display =
+                "block";
+
+            successMessage.style.display =
+                "none";
+        }
+
+
+        // ==========================================
+        // SHOW SUCCESS
+        // ==========================================
+
+        function showSuccess(message) {
+
+            successMessage.textContent =
+                message;
+
+            successMessage.style.display =
+                "block";
+
+            errorMessage.style.display =
+                "none";
+        }
+
+
+        // ==========================================
+        // STOP OTP TIMER
+        // ==========================================
+
+        function stopOtpTimer() {
+
+            if (otpTimerInterval !== null) {
+
+                clearInterval(
+                    otpTimerInterval
+                );
+
+                otpTimerInterval = null;
+            }
+        }
+
+
+        // ==========================================
+        // START OTP TIMER
+        // ==========================================
+
+        function startOtpTimer() {
+
+            stopOtpTimer();
+
+
+            const fiveMinutes =
+                5 * 60 * 1000;
+
+
+            otpExpiresAt =
+                Date.now() + fiveMinutes;
+
+
+            verifyButton.disabled =
+                false;
+
+            verifyButton.textContent =
+                "Verify OTP";
+
+
+            function updateOtpTimer() {
+
+                const remaining =
+                    Math.max(
+                        0,
+                        otpExpiresAt - Date.now()
+                    );
+
+
+                const totalSeconds =
+                    Math.ceil(
+                        remaining / 1000
+                    );
+
+
+                const minutes =
+                    Math.floor(
+                        totalSeconds / 60
+                    );
+
+
+                const seconds =
+                    totalSeconds % 60;
+
+
+                otpTimer.textContent =
+                    "OTP expires in: " +
+                    String(minutes)
+                        .padStart(2, "0") +
+                    ":" +
+                    String(seconds)
+                        .padStart(2, "0");
+
+
+                if (remaining <= 0) {
+
+                    stopOtpTimer();
+
+
+                    otpTimer.textContent =
+                        "OTP expired. Please go back and register again.";
+
+
+                    verifyButton.disabled =
+                        true;
+
+
+                    verifyButton.textContent =
+                        "OTP Expired";
+
+
+                    showError(
+                        "OTP expired. Please go back and register again."
+                    );
+                }
+            }
+
+
+            updateOtpTimer();
+
+
+            otpTimerInterval =
+                setInterval(
+                    updateOtpTimer,
+                    250
+                );
+        }
+
+
+        // ==========================================
+        // REGISTER
+        // ==========================================
 
         registerForm.addEventListener(
             "submit",
@@ -426,17 +813,21 @@
                     .value;
 
 
-                errorMessage.style.display = "none";
-                successMessage.style.display = "none";
+                errorMessage.style.display =
+                    "none";
+
+                successMessage.style.display =
+                    "none";
 
 
-                if (password !== confirmPassword) {
+                if (
+                    password !==
+                    confirmPassword
+                ) {
 
-                    errorMessage.textContent =
-                        "Passwords do not match.";
-
-                    errorMessage.style.display =
-                        "block";
+                    showError(
+                        "Passwords do not match."
+                    );
 
                     return;
                 }
@@ -470,43 +861,256 @@
 
                     if (!response.ok) {
 
-                        errorMessage.textContent =
+                        showError(
                             data.message ||
-                            "Registration failed.";
-
-                        errorMessage.style.display =
-                            "block";
+                            "Registration failed."
+                        );
 
                         return;
                     }
 
 
-                    successMessage.textContent =
-                        "Account created successfully! Redirecting to login...";
+                    registeredEmail =
+                        email;
 
-                    successMessage.style.display =
+
+                    // Show OTP section
+                    registerSection.style.display =
+                        "none";
+
+                    otpSection.style.display =
                         "block";
 
 
-                    registerForm.reset();
+                    loginLink.style.display =
+                        "none";
+
+
+                    // Clear old messages
+                    errorMessage.style.display =
+                        "none";
+
+                    successMessage.style.display =
+                        "none";
+
+
+                    // Update OTP information
+                    otpInfo.textContent =
+                        "A 6-digit OTP has been sent to " +
+                        email +
+                        ". Please check your email.";
+
+
+                    // Start fresh 5-minute timer
+                    startOtpTimer();
+
+
+                    showSuccess(
+                        "OTP sent successfully!"
+                    );
+
+
+                    otpInput.focus();
+
+                } catch (error) {
+
+                    showError(
+                        "Unable to connect to the server. Please make sure Flask is running."
+                    );
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // VERIFY OTP
+        // ==========================================
+
+        otpForm.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const otp =
+                    otpInput.value.trim();
+
+
+                errorMessage.style.display =
+                    "none";
+
+                successMessage.style.display =
+                    "none";
+
+
+                if (
+                    !/^\d{6}$/.test(otp)
+                ) {
+
+                    showError(
+                        "Please enter a valid 6-digit OTP."
+                    );
+
+                    return;
+                }
+
+
+                // Check timer before sending
+                if (
+                    otpExpiresAt === 0 ||
+                    Date.now() >= otpExpiresAt
+                ) {
+
+                    showError(
+                        "OTP expired. Please go back and register again."
+                    );
+
+                    verifyButton.disabled =
+                        true;
+
+                    return;
+                }
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/verify-otp",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    email:
+                                        registeredEmail,
+
+                                    otp: otp
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        showError(
+                            data.message ||
+                            "OTP verification failed."
+                        );
+
+                        return;
+                    }
+
+
+                    // Stop timer
+                    stopOtpTimer();
+
+
+                    showSuccess(
+                        "Account created successfully! Redirecting to login..."
+                    );
+
+
+                    otpForm.reset();
 
 
                     setTimeout(
                         function() {
+
                             window.location.href =
                                 "login.html";
+
                         },
                         1500
                     );
 
                 } catch (error) {
 
-                    errorMessage.textContent =
-                        "Unable to connect to the server. Please make sure Flask is running.";
-
-                    errorMessage.style.display =
-                        "block";
+                    showError(
+                        "Unable to connect to the server. Please make sure Flask is running."
+                    );
                 }
+
+            }
+        );
+
+
+        // ==========================================
+        // BACK BUTTON
+        // ==========================================
+
+        backButton.addEventListener(
+            "click",
+            function() {
+
+                stopOtpTimer();
+
+
+                otpSection.style.display =
+                    "none";
+
+
+                registerSection.style.display =
+                    "block";
+
+
+                loginLink.style.display =
+                    "block";
+
+
+                errorMessage.style.display =
+                    "none";
+
+
+                successMessage.style.display =
+                    "none";
+
+
+                otpInput.value =
+                    "";
+
+
+                otpTimer.textContent =
+                    "OTP expires in: 05:00";
+
+
+                verifyButton.disabled =
+                    false;
+
+
+                verifyButton.textContent =
+                    "Verify OTP";
+
+
+                otpExpiresAt =
+                    0;
+
+            }
+        );
+
+
+        // ==========================================
+        // OTP INPUT - NUMBERS ONLY
+        // ==========================================
+
+        otpInput.addEventListener(
+            "input",
+            function() {
+
+                this.value =
+                    this.value
+                    .replace(/\D/g, "")
+                    .slice(0, 6);
 
             }
         );
